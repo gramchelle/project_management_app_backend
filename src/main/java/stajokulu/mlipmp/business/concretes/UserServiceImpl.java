@@ -82,9 +82,11 @@ public class UserServiceImpl implements UserService {
         }
     }
 
+    // TODO: fill out
     @Override
     public User updateUser(UserDto userUpdateDto) {
-        /*GetUserDto existingUser = userRepository.findById(userUpdateDto.getId())
+        /*
+        List<GetUserDto> existingUser = userRepository.findById(userUpdateDto.getId())
                 .map(user -> new GetUserDto(user.getName(), user.getEmail(), user.getRole()))
                 .orElseThrow(() -> new IllegalArgumentException("User not found with id: " + userUpdateDto.getId()));
 
@@ -93,8 +95,8 @@ public class UserServiceImpl implements UserService {
         existingUser.setPassword_hash(userUpdateDto.getPassword());
         existingUser.setRole(userUpdateDto.getRole());
         
-        return userRepository.save(existingUser);*/
-
-        return null;
+        return userRepository.save(existingUser);
+        */
+        return null; 
     }
 }

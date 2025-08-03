@@ -11,12 +11,8 @@ import java.util.UUID;
 public interface UserService {
 
     List<GetUserDto> getAll(); //DONE
-
-    List<GetUserDto> getById(UUID id);
-
+    List<GetUserDto> getById(UUID id); //DONE
     User saveUser(UserDto userSaveDto); //DONE
-
     boolean deleteUser(UUID id); // DONE
-
-    User updateUser(UserDto userUpdateDto);
+    User updateUser(UserDto userUpdateDto); //TODO
 }
