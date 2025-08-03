@@ -18,7 +18,7 @@ public class TaskServiceImpl implements TaskService {
     private final TaskRepository taskRepository;
     private final UserRepository userRepository;
     private final ProjectRepository projectRepository;
-    
+
     @Override
     public List<Task> getAll() {
         // TODO Auto-generated method stub
@@ -44,8 +44,5 @@ public class TaskServiceImpl implements TaskService {
         // TODO Auto-generated method stub
         throw new UnsupportedOperationException("Unimplemented method 'updateTask'");
     }
-
-    
-
 
 }
