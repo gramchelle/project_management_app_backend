@@ -9,6 +9,7 @@ import lombok.RequiredArgsConstructor;
 import stajokulu.mlipmp.business.abstracts.TaskService;
 import stajokulu.mlipmp.entities.concretes.Task;
 import stajokulu.mlipmp.entities.dto.task.TaskDto;
+import stajokulu.mlipmp.entities.dto.task.TaskSaveDto;
 import stajokulu.mlipmp.repository.*;
 
 @Service
@@ -30,7 +31,7 @@ public class TaskServiceImpl implements TaskService {
     }
 
     @Override
-    public void saveTask(TaskDto taskDto) {
+    public void saveTask(TaskSaveDto taskDto) {
         Task task = new Task();
         task.setTitle(taskDto.getTitle());
         task.setDescription(taskDto.getDescription());
@@ -38,6 +39,7 @@ public class TaskServiceImpl implements TaskService {
         task.setAssigneeId(userRepository.findById(taskDto.getAssigneeId()).orElse(null));
         taskRepository.save(task);
     }
+
     @Override
     public boolean deleteTask(UUID id) {
         if (taskRepository.existsById(id)) {
@@ -48,8 +50,8 @@ public class TaskServiceImpl implements TaskService {
     }
 
     @Override
-    public Task updateTask(TaskDto taskDto) {
-        Task task = taskRepository.findById(taskDto.getId()).orElse(null);
+    public Task updateTask(TaskSaveDto taskDto, UUID id) {
+        Task task = taskRepository.findById(id).orElse(null);
         if (task != null) {
             task.setTitle(taskDto.getTitle());
             task.setDescription(taskDto.getDescription());

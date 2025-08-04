@@ -17,6 +17,7 @@ public class Task {
 
     @Id
     @Column(name = "id", columnDefinition = "uuid")
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private UUID id;
 
     @Column(name = "title", length = 200, nullable = false)

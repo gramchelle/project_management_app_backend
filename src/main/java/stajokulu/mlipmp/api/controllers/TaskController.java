@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -18,7 +19,7 @@ import stajokulu.mlipmp.business.abstracts.ProjectService;
 import stajokulu.mlipmp.business.abstracts.TaskService;
 import stajokulu.mlipmp.business.abstracts.UserService;
 import stajokulu.mlipmp.entities.concretes.Task;
-import stajokulu.mlipmp.entities.dto.task.TaskDto;
+import stajokulu.mlipmp.entities.dto.task.*;
 
 @RestController
 @RequestMapping("/task")
@@ -46,19 +47,29 @@ public class TaskController {
     }
 
     @DeleteMapping("/delete/{id}")
-    public ResponseEntity<Void> deleteTask(@PathVariable UUID id) {
+    public ResponseEntity<String> deleteTask(@PathVariable UUID id) {
         boolean isDeleted = taskService.deleteTask(id);
         if (isDeleted) {
-            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+            return new ResponseEntity<>("Task with id " + id + " is deleted successfully.", HttpStatus.NO_CONTENT);
         } else {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+            return new ResponseEntity<>("Task with id " + id + " is not found", HttpStatus.NOT_FOUND);
         }
     }
 
     @PostMapping("/save")
-    public ResponseEntity<Void> saveTask(@RequestBody TaskDto taskDto) {
+    public ResponseEntity<String> saveTask(@RequestBody TaskSaveDto taskDto) {
         taskService.saveTask(taskDto);
-        return new ResponseEntity<>(HttpStatus.CREATED);
+        return new ResponseEntity<>("Task created successfully", HttpStatus.CREATED);
+    }
+
+    @PutMapping("/update/{id}")
+    public ResponseEntity<Task> updateTask(@RequestBody TaskSaveDto taskDto, @PathVariable UUID id) {
+        Task updatedTask = taskService.updateTask(taskDto, id);
+        if (updatedTask != null) {
+            return new ResponseEntity<>(updatedTask, HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
     }
     
 
