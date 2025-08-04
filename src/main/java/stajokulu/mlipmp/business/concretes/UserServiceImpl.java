@@ -29,7 +29,7 @@ public class UserServiceImpl implements UserService {
             throw new IllegalArgumentException("No users are found.");
         }else{
             return users.stream()
-                    .map(user -> new GetUserDto(user.getName(), user.getEmail(), user.getRole()))
+                    .map(user -> new GetUserDto(user.getId(), user.getName(), user.getEmail(), user.getRole()))
                     .collect(Collectors.toList());
         }
     }
@@ -39,7 +39,7 @@ public class UserServiceImpl implements UserService {
         Optional<User> user = userRepository.findById(id);
         if (user.isPresent()) {
             User foundUser = user.get();
-            return List.of(new GetUserDto(foundUser.getName(), foundUser.getEmail(), foundUser.getRole()));
+            return List.of(new GetUserDto(foundUser.getId(), foundUser.getName(), foundUser.getEmail(), foundUser.getRole()));
         } else {
             System.out.println("HATA: UserServiceImpl -> GetById");
             throw new IllegalArgumentException("User not found with id: " + id);
@@ -82,21 +82,26 @@ public class UserServiceImpl implements UserService {
         }
     }
 
-    // TODO: fill out
     @Override
-    public User updateUser(UserDto userUpdateDto) {
-        /*
-        List<GetUserDto> existingUser = userRepository.findById(userUpdateDto.getId())
-                .map(user -> new GetUserDto(user.getName(), user.getEmail(), user.getRole()))
-                .orElseThrow(() -> new IllegalArgumentException("User not found with id: " + userUpdateDto.getId()));
+    public void updateUser(GetUserDto getUserDto) {
+        if (getUserDto.getId() == null) {
+            System.out.println("HATA: UserServiceImpl -> UpdateUser");
+            throw new IllegalArgumentException("User ID cannot be null.");
+        }
 
-        existingUser.setName(userUpdateDto.getName());
-        existingUser.setEmail(userUpdateDto.getEmail());
-        existingUser.setPassword_hash(userUpdateDto.getPassword());
-        existingUser.setRole(userUpdateDto.getRole());
-        
-        return userRepository.save(existingUser);
-        */
-        return null; 
+        User user = userRepository.findById(getUserDto.getId())
+                .orElseThrow(() -> new IllegalArgumentException("User not found with id: " + getUserDto.getId()));
+
+        if (getUserDto.getName() != null) {
+            user.setName(getUserDto.getName());
+        }
+        if (getUserDto.getEmail() != null) {
+            user.setEmail(getUserDto.getEmail());
+        }
+        if (getUserDto.getRole() != null) {
+            user.setRole(getUserDto.getRole());
+        }
+
+        userRepository.save(user);
     }
 }

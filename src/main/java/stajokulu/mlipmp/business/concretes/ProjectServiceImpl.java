@@ -3,6 +3,8 @@ package stajokulu.mlipmp.business.concretes;
 import java.util.List;
 import java.util.UUID;
 
+import jakarta.servlet.HttpConstraintElement;
+import jakarta.servlet.ServletRequest;
 import org.springframework.stereotype.Service;
 
 import lombok.RequiredArgsConstructor;
@@ -10,6 +12,7 @@ import stajokulu.mlipmp.business.abstracts.ProjectService;
 import stajokulu.mlipmp.entities.concretes.Project;
 import stajokulu.mlipmp.entities.concretes.User;
 import stajokulu.mlipmp.entities.dto.project.ProjectCreateDto;
+import stajokulu.mlipmp.entities.dto.project.ProjectUpdateDto;
 import stajokulu.mlipmp.repository.ProjectRepository;
 import stajokulu.mlipmp.repository.UserRepository;
 
@@ -19,9 +22,11 @@ public class ProjectServiceImpl implements ProjectService {
     
     private final ProjectRepository projectRepository;
     private final UserRepository userRepository;
+    private final ServletRequest httpServletRequest;
 
     @Override
     public List<Project> getAll() {
+        //httpServletRequest req = new HttpConstraintElement()
         return projectRepository.findAll();
     }
 
@@ -54,9 +59,24 @@ public class ProjectServiceImpl implements ProjectService {
         return false;
     }
 
-    @Override //TODO: Implement this method
-    public Project updateProject(ProjectCreateDto projectDto) {
-        return null;
+    @Override
+    public boolean updateProject(ProjectUpdateDto projectUpdateDto) {
+        Project project = projectRepository.findById(projectUpdateDto.getId())
+                .orElseThrow(() -> new RuntimeException("Project not found with id: " + projectUpdateDto.getId()));
+
+        project.setName(projectUpdateDto.getName());
+        project.setStartDate(projectUpdateDto.getStartDate());
+        project.setEndDate(projectUpdateDto.getEndDate());
+
+        projectRepository.save(project);
+        return true;
+    }
+
+    @Override
+    public List<Project> getByUserId(UUID userId) {
+        User user = userRepository.findById(userId)
+                .orElseThrow(() -> new RuntimeException("User not found with id: " + userId));
+        return projectRepository.findByOwner(user);
     }
 
 }

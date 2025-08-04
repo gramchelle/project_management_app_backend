@@ -21,28 +21,43 @@ public class TaskServiceImpl implements TaskService {
 
     @Override
     public List<Task> getAll() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'getAll'");
+        return taskRepository.findAll();
     }
+
     @Override
     public Task getById(UUID id) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'getById'");
+        return taskRepository.findById(id).orElse(null);
     }
+
     @Override
     public void saveTask(TaskDto taskDto) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'saveTask'");
+        Task task = new Task();
+        task.setTitle(taskDto.getTitle());
+        task.setDescription(taskDto.getDescription());
+        task.setProjectId(projectRepository.findById(taskDto.getProjectId()).orElse(null));
+        task.setAssigneeId(userRepository.findById(taskDto.getAssigneeId()).orElse(null));
+        taskRepository.save(task);
     }
     @Override
     public boolean deleteTask(UUID id) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'deleteTask'");
+        if (taskRepository.existsById(id)) {
+            taskRepository.deleteById(id);
+            return true;
+        }
+        return false;
     }
+
     @Override
     public Task updateTask(TaskDto taskDto) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'updateTask'");
+        Task task = taskRepository.findById(taskDto.getId()).orElse(null);
+        if (task != null) {
+            task.setTitle(taskDto.getTitle());
+            task.setDescription(taskDto.getDescription());
+            task.setProjectId(projectRepository.findById(taskDto.getProjectId()).orElse(null));
+            task.setAssigneeId(userRepository.findById(taskDto.getAssigneeId()).orElse(null));
+            taskRepository.save(task);
+        }
+        return task;
     }
 
 }

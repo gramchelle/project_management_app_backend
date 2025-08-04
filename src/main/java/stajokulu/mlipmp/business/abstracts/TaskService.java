@@ -9,9 +9,9 @@ import stajokulu.mlipmp.entities.dto.task.TaskDto;
 
 public interface TaskService {
 
-    List<Task> getAll(); //TODO: Implement this method
-    Task getById(UUID id); //TODO: Implement this method
-    void saveTask(TaskDto taskDto); //TODO: Implement this method
+    List<Task> getAll(); //DONE
+    Task getById(UUID id); //DONE
+    void saveTask(TaskDto taskDto); //DONE
     boolean deleteTask(UUID id); //TODO: Implement this method
-    Task updateTask(TaskDto taskDto); //TODO: Implement this method
+    Task updateTask(TaskDto taskDto); //DONE
 }

@@ -17,6 +17,7 @@ import lombok.RequiredArgsConstructor;
 import stajokulu.mlipmp.business.abstracts.ProjectService;
 import stajokulu.mlipmp.entities.concretes.Project;
 import stajokulu.mlipmp.entities.dto.project.ProjectCreateDto;
+import stajokulu.mlipmp.entities.dto.project.ProjectUpdateDto;
 
 @RestController
 @RequestMapping("/project")
@@ -44,6 +45,21 @@ public class ProjectController {
     public ResponseEntity<String> createProject(@RequestBody ProjectCreateDto projectDto) {
         projectService.saveProject(projectDto);
         return ResponseEntity.ok("Project created successfully.");
+    }
+
+    @PutMapping("/updateProject")
+    public ResponseEntity<String> updateProject(@RequestBody ProjectUpdateDto projectUpdateDto){
+        boolean isUpdated = projectService.updateProject(projectUpdateDto);
+        if (isUpdated) {
+            return ResponseEntity.ok("Project updated successfully.");
+        } else {
+            return ResponseEntity.notFound().build();
+        }
+    }
+
+    @GetMapping("/getByUserId/{userId}")
+    public List<Project> getProjectsByUserId(@PathVariable UUID userId) {
+        return projectService.getByUserId(userId);
     }
 
 }
