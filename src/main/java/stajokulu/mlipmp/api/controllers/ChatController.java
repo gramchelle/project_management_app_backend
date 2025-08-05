@@ -7,10 +7,10 @@ import org.springframework.web.client.RestTemplate;
 import java.util.*;
 
 @RestController
-@RequestMapping("/api/v1/chat")
+@RequestMapping("/chatbot")
 public class ChatController {
 
-    @PostMapping
+    @PostMapping("/sendMessage")
     public ResponseEntity<String> chatWithBot(@RequestBody Map<String, String> body) {
         String userMessage = body.get("message");
 
