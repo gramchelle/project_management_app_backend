@@ -34,10 +34,10 @@ public class Task {
 
     @ManyToOne
     @JoinColumn(name = "assignee_id", referencedColumnName = "id")
-    private User assigneeId;
+    private User assignee;
 
     @ManyToOne
     @JoinColumn(name = "project_id", referencedColumnName = "id")
-    private Project projectId;
+    private Project project;
 
 }

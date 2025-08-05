@@ -5,6 +5,7 @@ import java.util.UUID;
 
 import stajokulu.mlipmp.entities.concretes.Project;
 import stajokulu.mlipmp.entities.dto.project.ProjectCreateDto;
+import stajokulu.mlipmp.entities.dto.project.ProjectDescriptionDto;
 import stajokulu.mlipmp.entities.dto.project.ProjectUpdateDto;
 
 public interface ProjectService {
@@ -15,5 +16,6 @@ public interface ProjectService {
     boolean deleteProject(UUID id); //DONE
     boolean updateProject(ProjectUpdateDto projectUpdateDto); //DONE
     List<Project> getByUserId(UUID userId); //DONE
+    //List<ProjectDescriptionDto> getDescription(UUID id); //DONE
 
 }

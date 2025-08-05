@@ -1,17 +1,10 @@
 package stajokulu.mlipmp.api.controllers;
 
-import java.util.HashMap;
-import java.util.Map;
-
-import org.springframework.http.HttpEntity;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.MediaType;
-import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.*;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.RestTemplate;
+
+import java.util.*;
 
 @RestController
 @RequestMapping("/api/v1/chat")
@@ -21,6 +14,7 @@ public class ChatController {
     public ResponseEntity<String> chatWithBot(@RequestBody Map<String, String> body) {
         String userMessage = body.get("message");
 
+        // Python chatbot servisine POST isteği hazırlığı
         RestTemplate restTemplate = new RestTemplate();
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_JSON);
@@ -30,11 +24,17 @@ public class ChatController {
 
         HttpEntity<Map<String, String>> entity = new HttpEntity<>(payload, headers);
 
-        ResponseEntity<Map> response = restTemplate.postForEntity(
-            "http://localhost:8001/chat", entity, Map.class);
+        try {
+            ResponseEntity<Map> response = restTemplate.postForEntity(
+                    "http://localhost:8001/chat", entity, Map.class);
 
-        String botReply = (String) response.getBody().get("bot_response");
+            String botReply = (String) response.getBody().get("bot_response");
 
-        return ResponseEntity.ok(botReply);
+            return ResponseEntity.ok(botReply);
+
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body("Chatbot servisinden cevap alınamadı: " + e.getMessage());
+        }
     }
 }
