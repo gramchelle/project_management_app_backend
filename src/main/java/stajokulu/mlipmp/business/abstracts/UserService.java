@@ -15,4 +15,5 @@ public interface UserService {
     User saveUser(UserDto userSaveDto); //DONE
     boolean deleteUser(UUID id); // DONE
     void updateUser(GetUserDto getUserDto); //DONE
+    //void getUserByEmail();
 }

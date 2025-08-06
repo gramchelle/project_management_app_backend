@@ -1,13 +1,10 @@
-FROM maven:3.9.6-eclipse-temurin-21 AS build
-WORKDIR /app
-COPY . .
-RUN mvn clean package -DskipTests
+# Spring Boot için Temurin tabanlı image
+FROM eclipse-temurin:17-jdk
 
-FROM eclipse-temurin:21-jre
-WORKDIR /app
+ARG JAR_FILE=target/*.jar
 
-COPY --from=build /app/target/mlipmp-0.0.1-SNAPSHOT.jar app.jar
+COPY ${JAR_FILE} app.jar
 
 EXPOSE 8082
 
-ENTRYPOINT ["java", "-jar", "app.jar"]
+ENTRYPOINT ["java", "-jar", "/app.jar"]
