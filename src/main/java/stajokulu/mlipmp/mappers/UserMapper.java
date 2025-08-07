@@ -1,6 +1,7 @@
 package stajokulu.mlipmp.mappers;
 
 import stajokulu.mlipmp.entities.concretes.User;
+import stajokulu.mlipmp.entities.dto.user.GetUserDto;
 import stajokulu.mlipmp.entities.dto.user.LoginDto;
 
 public class UserMapper {
@@ -18,4 +19,5 @@ public class UserMapper {
         loginDto.setPasswordHash(user.getPassword_hash());
         return loginDto;
     }
+
 }

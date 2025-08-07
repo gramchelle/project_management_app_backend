@@ -7,6 +7,7 @@ import stajokulu.mlipmp.business.abstracts.UserService;
 import stajokulu.mlipmp.entities.concretes.User;
 import stajokulu.mlipmp.entities.dto.user.UserDto;
 import stajokulu.mlipmp.entities.dto.user.GetUserDto;
+import stajokulu.mlipmp.entities.dto.user.LoginDto;
 import stajokulu.mlipmp.repository.UserRepository;
 
 import java.util.List;
@@ -104,4 +105,15 @@ public class UserServiceImpl implements UserService {
 
         userRepository.save(user);
     }
+
+    @Override
+    public List<LoginDto> getUserByEmail(LoginDto loginDto) {
+        User user = userRepository.findByEmail(loginDto.getEmail())
+                .orElseThrow(() -> new RuntimeException("User not found with email: " + loginDto.getEmail()));
+        LoginDto responseDto = new LoginDto();
+        responseDto.setEmail(user.getEmail());
+        responseDto.setPasswordHash(user.getPassword_hash());
+        return List.of(responseDto);
+    }
+
 }

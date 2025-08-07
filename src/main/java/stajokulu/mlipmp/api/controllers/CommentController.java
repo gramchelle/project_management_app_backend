@@ -11,6 +11,7 @@ import stajokulu.mlipmp.entities.dto.comment.CommentSaveDto;
 import java.util.List;
 import java.util.UUID;
 
+@CrossOrigin(origins = "http://localhost:3000")
 @RestController
 @RequestMapping("/comments")
 @RequiredArgsConstructor

@@ -14,13 +14,14 @@ import stajokulu.mlipmp.entities.concretes.User;
 import stajokulu.mlipmp.entities.dto.project.ProjectCreateDto;
 import stajokulu.mlipmp.entities.dto.project.ProjectDescriptionDto;
 import stajokulu.mlipmp.entities.dto.project.ProjectUpdateDto;
+import stajokulu.mlipmp.entities.dto.user.LoginDto;
 import stajokulu.mlipmp.repository.ProjectRepository;
 import stajokulu.mlipmp.repository.UserRepository;
 
 @Service
 @RequiredArgsConstructor
 public class ProjectServiceImpl implements ProjectService {
-
+    
     private final ProjectRepository projectRepository;
     private final UserRepository userRepository;
     private final ServletRequest httpServletRequest;
@@ -45,7 +46,7 @@ public class ProjectServiceImpl implements ProjectService {
         project.setEndDate(projectDto.getEndDate());
 
         User owner = userRepository.findById(projectDto.getOwnerId())
-                .orElseThrow(() -> new RuntimeException("User not found"));
+            .orElseThrow(() -> new RuntimeException("User not found"));
         project.setOwner(owner);
 
         projectRepository.save(project);
@@ -79,4 +80,10 @@ public class ProjectServiceImpl implements ProjectService {
                 .orElseThrow(() -> new RuntimeException("User not found with id: " + userId));
         return projectRepository.findByOwner(user);
     }
+
+    //@Override
+    public List<ProjectDescriptionDto> getDescription(UUID id) {
+        return null; // Implementation needed
+    } 
 }
+

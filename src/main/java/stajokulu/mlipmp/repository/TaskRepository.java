@@ -6,10 +6,12 @@ import stajokulu.mlipmp.entities.concretes.Task;
 
 import java.util.Optional;
 import java.util.UUID;
+import java.util.List;
+
 
 @Repository
 public interface TaskRepository extends JpaRepository<Task, UUID> {
 
     Optional<Task> findFirstByProjectId(UUID projectId);
-
+    List<Task> findByProjectId(UUID projectId);
 }
